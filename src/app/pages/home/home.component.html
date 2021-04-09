@@ -1,0 +1,55 @@
+<div class="home">
+  <div class="sidebar">
+    <span class="sidebar__title">Categories</span>
+      <dx-menu
+        #menu
+        [dataSource]="categories"
+        displayExpr="label"
+        orientation="vertical"
+        (onItemClick)="onSidebarItemClick($event)"
+      >
+      </dx-menu>
+  </div>
+  <div class="table">
+    <dx-data-grid
+      (onRowClick)="onCellClick($event.data)"
+      id="gridContainer"
+      [dataSource]="filteredFilms"
+      [remoteOperations]="false"
+      [allowColumnReordering]="true"
+      [rowAlternationEnabled]="true"
+      [showBorders]="true"
+      (onContentReady)="contentReady($event)">
+      <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+
+      <dxi-column dataField="name" caption="Name" dataType="string" alignment="left"></dxi-column>
+      <dxi-column dataField="category.label" caption="Category" dataType="string" alignment="left"></dxi-column>
+      <dxi-column dataField="length" caption="Length" dataType="number" alignment="left"></dxi-column>
+    </dx-data-grid>
+  </div>
+  <dx-popup
+    [width]="700"
+    [height]="500"
+    [showTitle]="true"
+    [dragEnabled]="false"
+    title="Cast of: {{ currentFilm }}"
+    [closeOnOutsideClick]="true"
+    [(visible)]="popupVisible">
+    <dx-list [items]="crewData" height="100%">
+      <div *dxTemplate="let item of 'item'">
+        <div>
+          <span class="item__title">Name:</span>
+          <span class="item__value">{{ item.name }}</span>
+        </div>
+        <div>
+          <span class="item__title">Age:</span>
+          <span class="item__value">{{ item.age }}</span>
+        </div>
+        <div>
+          <span class="item__title">Gender</span>
+          <span class="item__value">{{ item.gender }}</span>
+        </div>
+      </div>
+      </dx-list>
+  </dx-popup>
+</div>
